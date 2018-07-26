@@ -31,7 +31,7 @@ public class Sproots extends ApplicationAdapter {
 
     /* iteration */
     private PointF prevPoint, currPoint;
-    private int i;
+    private int i, j;
     private List<Sproot> currSprootsList;
     private Sproot currSproot;
 
@@ -39,7 +39,7 @@ public class Sproots extends ApplicationAdapter {
     private Controller controller;
 
     /* sizes */
-    private float sprootWidth, sprootHeight;
+    private float sprootWidth, sprootHeight, leafHeight;
     private float halfSprootWidth, halfLeafWidth;
     private float groundHeight;
 
@@ -89,11 +89,13 @@ public class Sproots extends ApplicationAdapter {
         sprootSprite.setScale(sprootWidth / sprootSprite.getWidth());
         sprootSprite.setOrigin(0, 0);
 
-        sprootHeight = sprootSprite.getHeight()*sprootSprite.getScaleY();
+        sprootHeight = sprootSprite.getHeight() * sprootSprite.getScaleY();
 
         leafSprite = textureAtlas.createSprite("leaf");
         leafSprite.setScale(sprootSprite.getScaleX());
         leafSprite.setOrigin(0, 0);
+
+        leafHeight = leafSprite.getHeight() * leafSprite.getScaleY();
 
         halfSprootWidth = sprootWidth/2;
         halfLeafWidth = leafSprite.getWidth() * leafSprite.getScaleX() / 2;
@@ -113,6 +115,19 @@ public class Sproots extends ApplicationAdapter {
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
                 currX = screenX;
                 currY = height - screenY;
+
+                currSprootsList = controller.getSproots();
+
+                for (i = 0; i < currSprootsList.size(); i++) {
+                    currSproot = currSprootsList.get(i);
+
+                    if (currX > currSproot.getPosition().x - halfSprootWidth
+                            && currX < currSproot.getPosition().x + halfSprootWidth
+                            && currY > currSproot.getPosition().y
+                            && currY < currSproot.getPosition().y + sprootHeight){
+                        currSproot.addLeaf();
+                    }
+                }
 
                 return true;
             }
@@ -178,8 +193,13 @@ public class Sproots extends ApplicationAdapter {
             sprootSprite.setPosition(currSproot.getPosition().x - halfSprootWidth, currSproot.getPosition().y);
             sprootSprite.draw(batch);
 
-            leafSprite.setPosition(currSproot.getPosition().x - halfLeafWidth, currSproot.getPosition().y + sprootHeight);
-            leafSprite.draw(batch);
+            for (j = 0; j < currSproot.getNumLeaves(); j++) {
+                leafSprite.setPosition(
+                        currSproot.getPosition().x - halfLeafWidth,
+                        currSproot.getPosition().y + sprootHeight + (j * leafHeight)
+                );
+                leafSprite.draw(batch);
+            }
         }
 
         batch.end();

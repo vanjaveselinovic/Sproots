@@ -8,6 +8,8 @@ public class Sproot {
 
     private int currDirection = 0;
 
+    private int numLeaves = 1;
+
     public Sproot(PointF position) {
         this.position = position;
         random = new Random();
@@ -15,6 +17,10 @@ public class Sproot {
 
     public PointF getPosition() {
         return position;
+    }
+
+    public int getNumLeaves() {
+        return numLeaves;
     }
 
     public void update() {
@@ -29,5 +35,9 @@ public class Sproot {
             }
         }
         position.offset(currDirection, 0);
+    }
+
+    public void addLeaf() {
+        numLeaves++;
     }
 }
