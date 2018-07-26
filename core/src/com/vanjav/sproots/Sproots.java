@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import java.util.List;
+import java.util.ListIterator;
 
 public class Sproots extends ApplicationAdapter {
     /* ---------- VARIABLES ---------- */
@@ -34,6 +35,7 @@ public class Sproots extends ApplicationAdapter {
     private int i, j;
     private List<Sproot> currSprootsList;
     private Sproot currSproot;
+    private ListIterator<PointF> positionsIterator;
 
     /* controller */
     private Controller controller;
@@ -95,7 +97,7 @@ public class Sproots extends ApplicationAdapter {
         leafSprite.setScale(sprootSprite.getScaleX());
         leafSprite.setOrigin(0, 0);
 
-        leafHeight = leafSprite.getHeight() * leafSprite.getScaleY();
+        leafHeight = leafSprite.getHeight() * leafSprite.getScaleY() * 0.67f;
 
         halfSprootWidth = sprootWidth/2;
         halfLeafWidth = leafSprite.getWidth() * leafSprite.getScaleX() / 2;
@@ -193,9 +195,11 @@ public class Sproots extends ApplicationAdapter {
             sprootSprite.setPosition(currSproot.getPosition().x - halfSprootWidth, currSproot.getPosition().y);
             sprootSprite.draw(batch);
 
+            positionsIterator = currSproot.getPositionsIterator();
+
             for (j = 0; j < currSproot.getNumLeaves(); j++) {
                 leafSprite.setPosition(
-                        currSproot.getPosition().x - halfLeafWidth,
+                        positionsIterator.next().x - halfLeafWidth,
                         currSproot.getPosition().y + sprootHeight + (j * leafHeight)
                 );
                 leafSprite.draw(batch);

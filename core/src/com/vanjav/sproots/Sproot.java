@@ -1,10 +1,14 @@
 package com.vanjav.sproots;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.ListIterator;
 import java.util.Random;
 
 public class Sproot {
     private PointF position;
-    private Random random;
+    private LinkedList<PointF> last100Positions;
+    private Random random = new Random();
 
     private int currDirection = 0;
 
@@ -12,11 +16,15 @@ public class Sproot {
 
     public Sproot(PointF position) {
         this.position = position;
-        random = new Random();
+        this.last100Positions = new LinkedList<PointF>(Collections.nCopies(100, position));
     }
 
     public PointF getPosition() {
         return position;
+    }
+
+    public int getCurrDirection() {
+        return currDirection;
     }
 
     public int getNumLeaves() {
@@ -35,9 +43,15 @@ public class Sproot {
             }
         }
         position.offset(currDirection, 0);
+        last100Positions.addFirst(new PointF(position));
+        last100Positions.removeLast();
     }
 
     public void addLeaf() {
         numLeaves++;
+    }
+
+    public ListIterator<PointF> getPositionsIterator() {
+        return last100Positions.listIterator();
     }
 }
