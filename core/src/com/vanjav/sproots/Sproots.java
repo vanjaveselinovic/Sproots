@@ -84,6 +84,8 @@ public class Sproots extends ApplicationAdapter {
         }
 
         sprootSprite = textureAtlas.createSprite("sproot");
+        sprootSprite.setScale(sprootWidth / sprootSprite.getWidth());
+        sprootSprite.setOrigin(0, 0);
 
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
@@ -126,7 +128,8 @@ public class Sproots extends ApplicationAdapter {
                 width,
                 height,
                 density,
-                sprootWidth
+                sprootWidth,
+                groundHeight
         );
 
         gameStarted = false;
@@ -152,6 +155,7 @@ public class Sproots extends ApplicationAdapter {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
         shapeRenderer.setColor(groundColor.r, groundColor.g, groundColor.b, 1);
+        shapeRenderer.rect(0, 0, width, groundHeight);
 
         shapeRenderer.end();
 
