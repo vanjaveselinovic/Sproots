@@ -1,9 +1,16 @@
 
 textures.png
-size: 512,256
+size: 1024,256
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+leaf
+  rotate: false
+  xy: 348, 123
+  size: 403, 109
+  orig: 403, 109
+  offset: 0, 0
+  index: -1
 sproot
   rotate: false
   xy: 2, 2

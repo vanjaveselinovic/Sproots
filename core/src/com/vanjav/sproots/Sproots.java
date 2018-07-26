@@ -39,7 +39,8 @@ public class Sproots extends ApplicationAdapter {
     private Controller controller;
 
     /* sizes */
-    private float sprootWidth;
+    private float sprootWidth, sprootHeight;
+    private float halfSprootWidth, halfLeafWidth;
     private float groundHeight;
 
     /* graphics */
@@ -53,6 +54,7 @@ public class Sproots extends ApplicationAdapter {
     /* graphics - textures and sprites */
     private TextureAtlas textureAtlas;
     private Sprite sprootSprite;
+    private Sprite leafSprite;
 
     private Texture.TextureFilter filter = Texture.TextureFilter.Linear;
 
@@ -86,6 +88,15 @@ public class Sproots extends ApplicationAdapter {
         sprootSprite = textureAtlas.createSprite("sproot");
         sprootSprite.setScale(sprootWidth / sprootSprite.getWidth());
         sprootSprite.setOrigin(0, 0);
+
+        sprootHeight = sprootSprite.getHeight()*sprootSprite.getScaleY();
+
+        leafSprite = textureAtlas.createSprite("leaf");
+        leafSprite.setScale(sprootSprite.getScaleX());
+        leafSprite.setOrigin(0, 0);
+
+        halfSprootWidth = sprootWidth/2;
+        halfLeafWidth = leafSprite.getWidth() * leafSprite.getScaleX() / 2;
 
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
@@ -164,8 +175,11 @@ public class Sproots extends ApplicationAdapter {
         currSprootsList = controller.getSproots();
         for (i = 0; i < currSprootsList.size(); i++) {
             currSproot = currSprootsList.get(i);
-            sprootSprite.setPosition(currSproot.getPosition().x, currSproot.getPosition().y);
+            sprootSprite.setPosition(currSproot.getPosition().x - halfSprootWidth, currSproot.getPosition().y);
             sprootSprite.draw(batch);
+
+            leafSprite.setPosition(currSproot.getPosition().x - halfLeafWidth, currSproot.getPosition().y + sprootHeight);
+            leafSprite.draw(batch);
         }
 
         batch.end();

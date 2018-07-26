@@ -32,6 +32,8 @@ public class Controller {
         sproots = new ArrayList<Sproot>();
 
         sproots.add(new Sproot(new PointF(width/2, groundHeight)));
+        sproots.add(new Sproot(new PointF(width/2, groundHeight)));
+        sproots.add(new Sproot(new PointF(width/2, groundHeight)));
     }
 
     public List<Sproot> getSproots() {
